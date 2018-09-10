@@ -2,20 +2,28 @@
 
 from collections import defaultdict
 # Depth First Search using the Graph class (same as within ../datastructures/graph.py)
-
+# Includes Depth First Paths
 
 # Operations
 
-# 
+#DFS
+# None
 
+#Depth First Paths
+# has_path_to --> Returns whether or not there is a path to a certain node from the source node. 
+# pathTo --> Returns a path to the destination node from the source node if a possible path exists. 
 
 # Performance
 
-# 
+# Dependent on graph structure in general.
 
 # Comparisons
 
-# 
+# DFS is similar to Breadth First Search BFS
+
+# Depth First Paths return a path to the destination node from the source node. But since it is Depth first it may not be the shortest path.
+# Breadth First Search / Paths would be better in searching for searching for a path as it is breadth first. 
+# Both the above are only useful when searching for paths in unweighted graphs. 
 
 class DepthFirthSearch(object):
 
@@ -39,7 +47,8 @@ class DepthFirthSearch(object):
             text += str(key)+' : '+str(self.marked[key])+'\n'
         return text
 
-# Depth First Paths - Finds a path using depth first search
+# Depth First Paths - Finds a path using depth first search. 
+# This path may not be the shortest path possible. 
 
 class DepthFirstPaths(object):
 
@@ -79,17 +88,30 @@ class DepthFirstPaths(object):
 class Graph(object):
 
     def __init__(self, directed=False):
-        self.V = 0
         self.E = 0
+        self.V = 0
         self.directed = directed
         self.adj = defaultdict(list)
+        self.inverted_index = []
+        self.symbol_table = {}
 
     
     def add_edge(self, v1, v2):
-        self.adj[v1].append(v2)
+        if v1 not in self.symbol_table.keys():
+            self.symbol_table[v1] = self.V
+            self.inverted_index.append(v1)
+            self.V += 1
+        if v2 not in self.symbol_table.keys():
+            self.symbol_table[v2] = self.V
+            self.inverted_index.append(v2)
+            self.V += 1
+        
+        self.adj[self.symbol_table[v1]].append(self.symbol_table[v2])
+        self.E += 1 
         if not self.directed:
-            self.adj[v2].append(v1)
-        self.E += 1
+            self.adj[self.symbol_table[v2]].append(self.symbol_table[v1])
+            self.E += 1
+
     
     def __str__(self):
         text = ""

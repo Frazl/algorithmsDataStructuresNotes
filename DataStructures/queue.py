@@ -29,8 +29,9 @@ class Queue(object):
         self.q.append(s)
     
     def dequeue(self):
+        item = self.q[0]
         self.q = self.q[1:]
-        return self.q[0]
+        return item
     
     def __len__(self):
         return len(self.q)

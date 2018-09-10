@@ -35,7 +35,7 @@ class PriorityQueue(object):
         self.swim(self.N)
 
     def swim(self, k):
-        while k> 1 and self.d[k//2]< self.d[k]:
+        while k > 1 and self.d[k//2] < self.d[k]:
             self.exch(k, k//2)
             k = k//2
     

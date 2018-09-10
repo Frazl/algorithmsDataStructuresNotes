@@ -7,7 +7,8 @@ This is the place where I store all the Algorithms and Data Structures I'm curre
 ### Algorithms
 
 * Depth First Search
-    * Depth First Paths
+* Breadth First Search
+
 
 ### Data Structures / Types
 
@@ -17,7 +18,7 @@ This is the place where I store all the Algorithms and Data Structures I'm curre
 * Stack
 
 
-### ToDo
+### Todo
 
 #### Algorithms
 
