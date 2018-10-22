@@ -9,7 +9,7 @@ from collections import defaultdict
 #DFS
 # None
 
-#Depth First Paths
+# Depth First Paths
 # has_path_to --> Returns whether or not there is a path to a certain node from the source node. 
 # pathTo --> Returns a path to the destination node from the source node if a possible path exists. 
 

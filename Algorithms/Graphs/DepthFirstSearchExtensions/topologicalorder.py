@@ -1,8 +1,48 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
 
 from collections import defaultdict
-# Cycle Detection - Detects if there is a directred cycle. Can only be used with directed graphs...
-# uses the Graph class (same as within ../../datastructures/graph.py)
+
+class TopologicalSort(object):
+
+    def __init__(self, graph):
+        self.order = None
+        self.cyclefinder = DirectedCycle(graph)
+        if not self.cyclefinder.has_cycle():
+            self.depth_first_order = DepthFirstOrder(graph)
+            self.order = self.depth_first_order.reversePost
+        
+
+    def isDAG(self):
+        return self.order == None
+    
+
+        
+
+
+
+
+
+class DepthFirstOrder(object):
+    
+    def __init__(self, graph):
+        self.reversePost = Stack()
+        self.marked = [False] * graph.V
+        
+        s = 0 
+        while s < graph.V:
+            if not self.marked[s]:
+                self.dfs(graph, s)
+            s += 1
+        
+    def dfs(self, graph, s):
+        self.marked[s] = True
+        for vertex in graph.adj[s]:
+            if not self.marked[vertex]:
+                self.dfs(graph, vertex)
+        self.reversePost.push(s)
+
+
+
 
 class DirectedCycle(object):
 
@@ -14,9 +54,11 @@ class DirectedCycle(object):
         self.count = 0
         self.graph = graph
         self.cycle = None
-        for v in range(graph.V):
+        v = 0 
+        while v < graph.V:
             if not self.marked[v]:
                 self.dfs(v)
+            v += 1
         
     def dfs(self, search_query):
         self.marked[search_query] = True
@@ -102,19 +144,30 @@ class Stack(object):
             return False
         else:
             return True
-    
+
 
 
 def main():
     q = Graph(directed=True)
-    q.add_edge(0, 5)
-    q.add_edge(5, 4)
-    q.add_edge(4, 3)
+    q.add_edge('Algorithms', 5)
+    q.add_edge('Algorithms', 1)
+    q.add_edge('Algorithms', 6)
+    q.add_edge(2, 'Algorithms')
+    q.add_edge(2, 3)
     q.add_edge(3, 5)
-    dc = DirectedCycle(q)
-    print(dc.has_cycle())
-    while len(dc.cycle) != 0:
-        print(dc.cycle.pop())
+    q.add_edge(5, 4)
+    q.add_edge(6, 4)
+    q.add_edge(6, 9)
+    q.add_edge(7, 6)
+    q.add_edge(8, 7)
+    q.add_edge(9, 10)
+    q.add_edge(9, 11)
+    q.add_edge(9, 12)
+    q.add_edge(11, 12)
+    c = TopologicalSort(q)
+    s = c.order
+    while not s.is_empty():
+        print(q.inverted_index[s.pop()])
 
 if __name__ == '__main__':
     main()
